@@ -36,11 +36,73 @@ public class BankAccount {
 
 
     public static boolean isEmailValid(String email){
-        if (email.indexOf('@') == -1){
+
+        int length = email.length();
+        int atIndex = email.indexOf('@');
+
+        //make sure there is some @ in the middle of the address
+        if (atIndex == -1 || atIndex == 0 || atIndex == length-1) {
             return false;
         }
-        else {
-            return true;
+
+        //make sure there's only one @ and split email
+        String[] emailSplit = email.split("@");
+        if (emailSplit.length > 2) {
+            return false;
         }
+
+        //make sure there's a dot something at least 2 chars in domain
+        int dotIndex = email.lastIndexOf('.');
+        if (atIndex > dotIndex || dotIndex > email.length() - 3){
+            return false;
+        }
+
+
+        for (int emailPiece = 0; emailPiece < emailSplit.length; emailPiece++) {
+
+            String currPiece = emailSplit[emailPiece];
+            for (int charIndex = 0; charIndex < currPiece.length(); charIndex++) {
+                char currChar = currPiece.charAt(charIndex);
+
+                //check for valid characters
+                Boolean valid = false;
+
+                //special characters
+                if (currChar == 45 || currChar == 46 || currChar == 95 ) {
+                    valid = true;
+                    //check for special characters at beginning and end
+                    if (charIndex == 0 || charIndex == currPiece.length()-1) {
+                        valid = false;
+                    } else {
+                        //check for double special characters
+                        char left = currPiece.charAt(charIndex-1);
+                        char right = currPiece.charAt(charIndex+1);
+                        if (left == 45 || left == 46 || left == 95 || right == 45 || right == 46 || right == 95 ) {
+                            valid = false;
+                        }
+                    }
+
+                }
+                //numbers
+                else if (currChar >= 48 && currChar <= 57) {
+                    valid = true;
+                }
+                //uppercase letters
+                else if (currChar >= 65 && currChar <= 90) {
+                    valid = true;
+                }
+                //lowercase letters
+                else if (currChar >= 97 && currChar <= 122) {
+                    valid = true;
+                }
+
+                if (!valid) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+
     }
 }
