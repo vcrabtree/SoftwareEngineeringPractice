@@ -23,15 +23,28 @@ class BankAccountTest {
 
     @Test
     void isEmailValidTest(){
+
+        //equivalence classes
+
+        //valid prefix and domain
         assertTrue(BankAccount.isEmailValid( "a@b.com"));
-        assertFalse(BankAccount.isEmailValid(""));
+
+        //invalid prefix and domain
+        assertFalse(BankAccount.isEmailValid("")); //border case - no email
+        //other border case - multiple errors in both parts?
+
+        //invalid prefix
         assertFalse(BankAccount.isEmailValid("haha-@haha.com"));
         assertFalse(BankAccount.isEmailValid("haha..haha@haha.com"));
         assertFalse(BankAccount.isEmailValid(".haha@haha.com"));
         assertFalse(BankAccount.isEmailValid("haha#haha@haha.com"));
-        assertFalse(BankAccount.isEmailValid("@haha.com"));
-        assertFalse(BankAccount.isEmailValid("haha@"));
+        assertFalse(BankAccount.isEmailValid("@haha.com")); //border case - no prefix at all
+        //other border case - multiple errors in prefix
+
+        //invalid domain
+        assertFalse(BankAccount.isEmailValid("haha@")); //border case - no domain
         assertFalse(BankAccount.isEmailValid("haha@haha..com"));
+        //other border case - multiple errors in domain
     }
 
     @Test
