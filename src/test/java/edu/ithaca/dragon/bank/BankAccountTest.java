@@ -14,7 +14,7 @@ class BankAccountTest {
     }
 
     @Test
-    void withdrawTest() {
+    void withdrawTest() throws InsufficientFundsException{
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
 
         //Withdraw negative amount of money
@@ -26,12 +26,9 @@ class BankAccountTest {
         assertEquals(200, bankAccount.getBalance()); //boarder case
 
         //Withdraw more than is in account
-        bankAccount.withdraw(201);
-        assertEquals(200, bankAccount.getBalance()); //boarder case
-        bankAccount.withdraw(350);
-        assertEquals(200, bankAccount.getBalance());
-        bankAccount.withdraw(1000);
-        assertEquals(200, bankAccount.getBalance()); //boarder case
+        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(201)); //boarder case
+        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(350));
+        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(1000)); //boarder case
 
         //Withdraw equals or less than is in account
         bankAccount.withdraw(1);
