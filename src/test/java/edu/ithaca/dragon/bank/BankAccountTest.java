@@ -16,9 +16,30 @@ class BankAccountTest {
     @Test
     void withdrawTest() {
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
-        bankAccount.withdraw(100);
 
+        //Withdraw negative amount of money
+        bankAccount.withdraw(-1);
+        assertEquals(200, bankAccount.getBalance()); //boarder case
+        bankAccount.withdraw(-50);
+        assertEquals(200, bankAccount.getBalance());
+        bankAccount.withdraw(-1000);
+        assertEquals(200, bankAccount.getBalance()); //boarder case
+
+        //Withdraw more than is in account
+        bankAccount.withdraw(201);
+        assertEquals(200, bankAccount.getBalance()); //boarder case
+        bankAccount.withdraw(350);
+        assertEquals(200, bankAccount.getBalance());
+        bankAccount.withdraw(1000);
+        assertEquals(200, bankAccount.getBalance()); //boarder case
+
+        //Withdraw equals or less than is in account
+        bankAccount.withdraw(1);
+        assertEquals(199, bankAccount.getBalance()); //boarder case
+        bankAccount.withdraw(100);
         assertEquals(100, bankAccount.getBalance());
+        bankAccount.withdraw(200);
+        assertEquals(0, bankAccount.getBalance()); //boarder case
     }
 
     @Test
