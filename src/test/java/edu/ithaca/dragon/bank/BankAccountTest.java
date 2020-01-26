@@ -34,8 +34,8 @@ class BankAccountTest {
         bankAccount.withdraw(1);
         assertEquals(199, bankAccount.getBalance()); //boarder case
         bankAccount.withdraw(100);
-        assertEquals(100, bankAccount.getBalance());
-        bankAccount.withdraw(200);
+        assertEquals(99, bankAccount.getBalance());
+        bankAccount.withdraw(99);
         assertEquals(0, bankAccount.getBalance()); //boarder case
     }
 
