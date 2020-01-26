@@ -8,9 +8,12 @@ class BankAccountTest {
 
     @Test
     void getBalanceTest() {
-        BankAccount bankAccount = new BankAccount("a@b.com", 200);
-
-        assertEquals(200, bankAccount.getBalance());
+        BankAccount bankAccountA = new BankAccount("a@b.com", 0);
+        assertEquals(0, bankAccountA.getBalance()); //boarder case
+        BankAccount bankAccountB = new BankAccount("a@b.com", 200);
+        assertEquals(200, bankAccountB.getBalance());
+        BankAccount bankAccountC = new BankAccount("a@b.com", 100000000);
+        assertEquals(100000000, bankAccountC.getBalance()); //boarder case
     }
 
     @Test
