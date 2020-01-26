@@ -24,27 +24,45 @@ class BankAccountTest {
     @Test
     void isEmailValidTest(){
 
-        //equivalence classes
-
-        //valid prefix and domain
+        //@ symbol
+        assertFalse(BankAccount.isEmailValid( "ab.com")); //boarder case
         assertTrue(BankAccount.isEmailValid( "a@b.com"));
+        assertFalse(BankAccount.isEmailValid( "a@b@c.com"));
 
-        //invalid prefix and domain
-        assertFalse(BankAccount.isEmailValid("")); //border case - no email
-        //other border case - multiple errors in both parts?
+        //No dash
+        assertTrue(BankAccount.isEmailValid("a@b.com")); //boarder case
 
-        //invalid prefix
-        assertFalse(BankAccount.isEmailValid("haha-@haha.com"));
-        assertFalse(BankAccount.isEmailValid("haha..haha@haha.com"));
-        assertFalse(BankAccount.isEmailValid(".haha@haha.com"));
-        assertFalse(BankAccount.isEmailValid("haha#haha@haha.com"));
-        assertFalse(BankAccount.isEmailValid("@haha.com")); //border case - no prefix at all
-        //other border case - multiple errors in prefix
+        //Dash in between letters
+        assertTrue(BankAccount.isEmailValid("a-b@c.com")); //boarder case
+        assertTrue(BankAccount.isEmailValid("a-b@c-d.com"));
 
-        //invalid domain
-        assertFalse(BankAccount.isEmailValid("haha@")); //border case - no domain
-        assertFalse(BankAccount.isEmailValid("haha@haha..com"));
-        //other border case - multiple errors in domain
+        //Dash in between one letter
+        assertFalse(BankAccount.isEmailValid("-ab@c.com"));
+        assertFalse(BankAccount.isEmailValid("ab-@c.com"));
+        assertFalse(BankAccount.isEmailValid("ab@-c.com"));
+        assertFalse(BankAccount.isEmailValid("ab@c.com-"));
+
+        //No pound
+        assertTrue(BankAccount.isEmailValid("a@b.com")); //boarder case
+
+        //Any pound
+        assertFalse(BankAccount.isEmailValid("a#bc@d.com")); //boarder case
+        assertFalse(BankAccount.isEmailValid("a#bc@d#e.com"));
+        assertFalse(BankAccount.isEmailValid("#a#b#c#@#d#e.com")); //boarder case
+
+        //No dot
+        assertFalse(BankAccount.isEmailValid("ab@c")); //boarder case
+
+        //One dot in between letters
+        assertTrue(BankAccount.isEmailValid("a@b.com")); //boarder case
+        assertTrue(BankAccount.isEmailValid("a.b@c.com"));
+        assertTrue(BankAccount.isEmailValid("a.b.c.d.e@f.com")); //boarder case
+
+        //Dot next to one letter
+        assertFalse(BankAccount.isEmailValid(".a@b.com"));
+        assertFalse(BankAccount.isEmailValid("a.@b.com"));
+        assertFalse(BankAccount.isEmailValid("a@.com")); //boarder case
+        assertFalse(BankAccount.isEmailValid("a@b.")); //boarder case
     }
 
     @Test
