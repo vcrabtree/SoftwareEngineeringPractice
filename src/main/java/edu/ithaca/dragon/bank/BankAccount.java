@@ -26,6 +26,10 @@ public class BankAccount {
         return email;
     }
 
+    public static boolean isAmountValid(double amount) {
+        return false;
+    }
+
     /**
      * @post reduces the balance by amount if amount is non-negative and smaller than balance
      */
@@ -36,7 +40,8 @@ public class BankAccount {
 
         if (amount <= balance) {
             balance -= amount;
-        } else {
+        }
+        else {
             throw new InsufficientFundsException("Not enough money");
         }
     }
