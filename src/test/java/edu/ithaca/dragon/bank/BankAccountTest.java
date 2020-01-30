@@ -8,12 +8,29 @@ class BankAccountTest {
 
     @Test
     void getBalanceTest() {
+        // No decimals
         BankAccount bankAccountA = new BankAccount("a@b.com", 0);
         assertEquals(0, bankAccountA.getBalance()); //border case
         BankAccount bankAccountB = new BankAccount("a@b.com", 200);
         assertEquals(200, bankAccountB.getBalance());
-        BankAccount bankAccountC = new BankAccount("a@b.com", 100000000);
-        assertEquals(100000000, bankAccountC.getBalance()); //border case
+        BankAccount bankAccountC = new BankAccount("a@b.com", 99999999);
+        assertEquals(99999999, bankAccountC.getBalance()); //border case
+
+        // One to two decimals
+        BankAccount bankAccountD = new BankAccount("a@b.com", 0.01);
+        assertEquals(0.01, bankAccountD.getBalance()); //border case
+        BankAccount bankAccountE = new BankAccount("a@b.com", 200.99);
+        assertEquals(200.99, bankAccountE.getBalance());
+        BankAccount bankAccountF = new BankAccount("a@b.com", 99999999.99);
+        assertEquals(99999999.99, bankAccountF.getBalance()); //border case
+
+        // More than two decimals
+        BankAccount bankAccountG = new BankAccount("a@b.com", 0.0000001);
+        assertEquals(0.0000001, bankAccountG.getBalance()); //border case
+        BankAccount bankAccountH = new BankAccount("a@b.com", 200.123456789);
+        assertEquals(200.123456789, bankAccountH.getBalance());
+        BankAccount bankAccountI = new BankAccount("a@b.com", 99999999.999999);
+        assertEquals(99999999.999999, bankAccountI.getBalance()); //border case
     }
 
     @Test

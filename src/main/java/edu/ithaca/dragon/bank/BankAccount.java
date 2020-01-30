@@ -27,7 +27,17 @@ public class BankAccount {
     }
 
     public static boolean isAmountValid(double amount) {
-        return false;
+        if (amount < 0) {
+            return false;
+        }
+        String amountString = Double.toString(amount);
+        int length = amountString.length();
+        int decimal = amountString.indexOf('.');
+        int numDecimal = (length - 1) - decimal;
+        if (numDecimal > 2) {
+            return false;
+        }
+        return true;
     }
 
     /**
