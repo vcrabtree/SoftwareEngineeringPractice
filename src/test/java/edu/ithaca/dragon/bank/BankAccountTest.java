@@ -13,24 +13,16 @@ class BankAccountTest {
         assertEquals(0, bankAccountA.getBalance()); //border case
         BankAccount bankAccountB = new BankAccount("a@b.com", 200);
         assertEquals(200, bankAccountB.getBalance());
-        BankAccount bankAccountC = new BankAccount("a@b.com", 99999999);
-        assertEquals(99999999, bankAccountC.getBalance()); //border case
+        BankAccount bankAccountC = new BankAccount("a@b.com", 9999);
+        assertEquals(9999, bankAccountC.getBalance()); //border case
 
         // One to two decimals
         BankAccount bankAccountD = new BankAccount("a@b.com", 0.01);
         assertEquals(0.01, bankAccountD.getBalance()); //border case
         BankAccount bankAccountE = new BankAccount("a@b.com", 200.99);
         assertEquals(200.99, bankAccountE.getBalance());
-        BankAccount bankAccountF = new BankAccount("a@b.com", 99999999.99);
-        assertEquals(99999999.99, bankAccountF.getBalance()); //border case
-
-        // More than two decimals
-        BankAccount bankAccountG = new BankAccount("a@b.com", 0.0000001);
-        assertEquals(0.0000001, bankAccountG.getBalance()); //border case
-        BankAccount bankAccountH = new BankAccount("a@b.com", 200.123456789);
-        assertEquals(200.123456789, bankAccountH.getBalance());
-        BankAccount bankAccountI = new BankAccount("a@b.com", 99999999.999999);
-        assertEquals(99999999.999999, bankAccountI.getBalance()); //border case
+        BankAccount bankAccountF = new BankAccount("a@b.com", 9999.99);
+        assertEquals(9999.99, bankAccountF.getBalance()); //border case
     }
 
     @Test
@@ -58,18 +50,9 @@ class BankAccountTest {
     }
 
     @Test
-    void withdrawTest() throws InsufficientFundsException{
+    void withdrawTest() throws InsufficientFundsException, IllegalArgumentException{
         BankAccount bankAccount = new BankAccount("a@b.com", 200);
 
-        //Withdraw negative amount of money
-        bankAccount.withdraw(-1);
-        assertEquals(200, bankAccount.getBalance()); //border case
-        bankAccount.withdraw(-50);
-        assertEquals(200, bankAccount.getBalance());
-        bankAccount.withdraw(-1000);
-        assertEquals(200, bankAccount.getBalance()); //border case
-
-        //Withdraw more than is in account
         assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(201)); //border case
         assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(350));
         assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(1000)); //border case
@@ -83,19 +66,19 @@ class BankAccountTest {
         assertEquals(0, bankAccount.getBalance()); //border case
 
         // Negative, One to Two Decimals
-        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(-1.01)); // border case
-        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(-53.83));
-        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(-9999999.9)); // border case
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(-1.01)); // border case
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(-53.83));
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(-9999999.9)); // border case
 
         // Negative, Multiple Decimals
-        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(-1.0000001)); // border case
-        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(-7.48));
-        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(-9999999.9999999)); // border case
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(-1.0000001)); // border case
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(-7.48));
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(-9999999.9999999)); // border case
 
         // Positive, Multiple Decimals
-        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(0.000001)); // border case
-        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(92.498865));
-        assertThrows(InsufficientFundsException.class, () -> bankAccount.withdraw(9999999.999999)); //border case
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(0.000001)); // border case
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(92.498865));
+        assertThrows(IllegalArgumentException.class, () -> bankAccount.withdraw(9999999.999999)); //border case
     }
 
     @Test
@@ -151,20 +134,21 @@ class BankAccountTest {
         //check for exception thrown correctly
         assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", 100));
         assertThrows(IllegalArgumentException.class, ()-> new BankAccount("", 100));
+
         // Negative, One to Two Decimals
-        assertThrows(InsufficientFundsException.class, () -> bankAccount.isAmountValid(-1.01)); // border case
-        assertThrows(InsufficientFundsException.class, () -> bankAccount.isAmountValid(-53.83));
-        assertThrows(InsufficientFundsException.class, () -> bankAccount.isAmountValid(-9999999.9)); // border case
+        assertThrows(IllegalArgumentException.class, () -> new BankAccount("a@b.com", -1.01)); // border case
+        assertThrows(IllegalArgumentException.class, () -> new BankAccount("a@b.com",-53.83));
+        assertThrows(IllegalArgumentException.class, () -> new BankAccount("a@b.com",-9999999.9)); // border case
 
         // Negative, Multiple Decimals
-        assertThrows(InsufficientFundsException.class, () -> bankAccount.isAmountValid(-1.0000001)); // border case
-        assertThrows(InsufficientFundsException.class, () -> bankAccount.isAmountValid(-7.48));
-        assertThrows(InsufficientFundsException.class, () -> bankAccount.isAmountValid(-9999999.9999999)); // border case
+        assertThrows(IllegalArgumentException.class, () -> new BankAccount("a@b.com",-1.0000001)); // border case
+        assertThrows(IllegalArgumentException.class, () -> new BankAccount("a@b.com",-7.48));
+        assertThrows(IllegalArgumentException.class, () -> new BankAccount("a@b.com",-9999999.9999999)); // border case
 
         // Positive, Multiple Decimals
-        assertThrows(InsufficientFundsException.class, () -> bankAccount.isAmountValid(0.000001)); // border case
-        assertThrows(InsufficientFundsException.class, () -> bankAccount.isAmountValid(92.498865));
-        assertThrows(InsufficientFundsException.class, () -> bankAccount.isAmountValid(9999999.999999)); //border case
+        assertThrows(IllegalArgumentException.class, () -> new BankAccount("a@b.com",0.000001)); // border case
+        assertThrows(IllegalArgumentException.class, () -> new BankAccount("a@b.com",92.498865));
+        assertThrows(IllegalArgumentException.class, () -> new BankAccount("a@b.com",9999999.999999)); //border case
     }
 
 }
