@@ -143,7 +143,10 @@ public class BankAccount {
         }
     }
 
-    public void transfer(BankAccount account, double amount) {
+    public void transfer(BankAccount account, double amount) throws InsufficientFundsException, IllegalArgumentException {
+        withdraw(amount);
+        account.deposit(amount);
+
 
     }
 }
