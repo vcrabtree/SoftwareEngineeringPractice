@@ -133,4 +133,8 @@ public class BankAccount {
         return true;
 
     }
+
+    public void deposit(double amount) {
+
+    }
 }
