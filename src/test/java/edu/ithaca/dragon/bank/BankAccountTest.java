@@ -179,4 +179,35 @@ class BankAccountTest {
         assertThrows(IllegalArgumentException.class, () -> bankAccount.deposit(9999999.999999)); //border case
     }
 
+    @Test
+    void transferTest() {
+        BankAccount bankAccountA = new BankAccount("a@b.com", 200);
+        BankAccount bankAccountB = new BankAccount("a@b.com", 400);
+
+        // Negative, One to Two Decimals
+        assertThrows(IllegalArgumentException.class, () -> bankAccountA.transfer(bankAccountB, -1.01)); // border case
+        assertThrows(IllegalArgumentException.class, () -> bankAccountA.transfer(bankAccountB,-53.83));
+        assertThrows(IllegalArgumentException.class, () -> bankAccountA.transfer(bankAccountB, -9999999.9)); // border case
+
+        // Positive, One to Two Decimals
+        bankAccountA.transfer(bankAccountB,0);
+        assertEquals(200, bankAccountA.getBalance()); //border case
+        assertEquals(400, bankAccountB.getBalance());
+        bankAccountA.transfer(bankAccountB, 20);
+        assertEquals(280, bankAccountA.getBalance());
+        assertEquals(420, bankAccountB.getBalance());
+        bankAccountA.transfer(bankAccountB, 280);
+        assertEquals(0, bankAccountA.getBalance()); //border case
+        assertEquals(600, bankAccountB.getBalance());
+
+        // Negative, Multiple Decimals
+        assertThrows(IllegalArgumentException.class, () -> bankAccountA.transfer(bankAccountB,-1.0000001)); // border case
+        assertThrows(IllegalArgumentException.class, () -> bankAccountA.transfer(bankAccountB,-7.48));
+        assertThrows(IllegalArgumentException.class, () -> bankAccountA.transfer(bankAccountB,-9999999.9999999)); // border case
+
+        // Positive, Multiple Decimals
+        assertThrows(IllegalArgumentException.class, () -> bankAccountA.transfer(bankAccountB,0.000001)); // border case
+        assertThrows(IllegalArgumentException.class, () -> bankAccountA.transfer(bankAccountB,92.498865));
+        assertThrows(IllegalArgumentException.class, () -> bankAccountA.transfer(bankAccountB,9999999.999999)); //border case
+
 }

@@ -142,4 +142,8 @@ public class BankAccount {
             balance += amount;
         }
     }
+
+    public void transfer(BankAccount account, double amount) {
+
+    }
 }
